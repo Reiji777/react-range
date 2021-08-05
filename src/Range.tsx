@@ -27,6 +27,7 @@ class Range extends React.Component<IProps> {
     direction: Direction.Right,
     rtl: false,
     disabled: false,
+    rotate90Deg: false,
     allowOverlap: false,
     draggableTrack: false,
     min: 0,
@@ -85,7 +86,7 @@ class Range extends React.Component<IProps> {
       checkBoundaries(value, this.props.min, this.props.max)
     );
     this.resizeObserver.observe(this.trackRef.current!);
-    translateThumbs(this.getThumbs(), this.getOffsets(), this.props.rtl);
+    translateThumbs(this.getThumbs(), this.getOffsets(), this.props.rtl, this.props.rotate90Deg);
     this.calculateMarkOffsets();
 
     values.forEach((value) => {
@@ -98,7 +99,7 @@ class Range extends React.Component<IProps> {
   }
 
   componentDidUpdate(prevProps: IProps, prevState: any) {
-    const { max, min, step, values, rtl } = this.props;
+    const { max, min, step, values, rtl, rotate90Deg } = this.props;
     if (
       prevProps.max !== max ||
       prevProps.min !== min ||
@@ -110,7 +111,7 @@ class Range extends React.Component<IProps> {
         this.markRefs[i] = React.createRef<HTMLElement>();
       }
     }
-    translateThumbs(this.getThumbs(), this.getOffsets(), rtl);
+    translateThumbs(this.getThumbs(), this.getOffsets(), rtl, rotate90Deg);
     // ensure offsets are calculated when the refs for the marks have been created
     // and those refs have been mounted to the dom
     // on the state update in calculateOffsets with new markOffsets are calculated
@@ -278,7 +279,7 @@ class Range extends React.Component<IProps> {
   };
 
   onResize = () => {
-    translateThumbs(this.getThumbs(), this.getOffsets(), this.props.rtl);
+    translateThumbs(this.getThumbs(), this.getOffsets(), this.props.rtl, this.props.rotate90Deg);
     this.calculateMarkOffsets();
   };
 

@@ -14,6 +14,7 @@ export interface IProps {
   max: number;
   step: number;
   direction: Direction;
+  rotate90Deg: boolean; 
   allowOverlap: boolean;
   draggableTrack: boolean;
   disabled: boolean;
